@@ -74,6 +74,7 @@ public class InventoryWSImpl implements InventoryWS {
 		// Product list
 		List<ProductOrderDAO> productDaoList = new ArrayList<>();
 		for (ProductOrder productOrder : order.getProductOrder()) {
+			Util.log("Adding product to order: " + productOrder);
 			// Product fields
 			ProductDAO productDao = new ProductDAO();
 			productDao.setProductName(productOrder.getProductName());
@@ -102,6 +103,7 @@ public class InventoryWSImpl implements InventoryWS {
 		orderConfirm.setVendorCode(orderConfirmDao.getVendorCode());
 
 		for (ProductOrderDAO productOrderDao : orderConfirmDao.getProductOrderList()) {
+			Util.log("productOrderDao: " + productOrderDao);
 			ProductConfirm productConfirm = new ProductConfirm();
 			productConfirm.setOrderQuantity(productOrderDao.getOrderQuantity());
 			ProductDAO productDao = productOrderDao.getProduct();

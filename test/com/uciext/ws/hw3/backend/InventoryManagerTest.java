@@ -52,7 +52,9 @@ public class InventoryManagerTest {
 		productOrderList.add(productOrder);
 		order.setProductOrderList(productOrderList);
 		OrderConfirmDAO conf = manager.processOrder(order);
-		System.out.println(conf);
+		for (ProductOrderDAO p : conf.getProductOrderList()) {
+			System.out.println("ProductOrderDAO: " + p);
+		}
 	}
 
 }
