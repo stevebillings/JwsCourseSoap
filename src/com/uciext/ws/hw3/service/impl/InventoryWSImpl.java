@@ -19,6 +19,7 @@ import com.uciext.ws.hw3.service.model.catalog.Product;
 import com.uciext.ws.hw3.service.model.order.Order;
 import com.uciext.ws.hw3.service.model.order.ProductOrder;
 import com.uciext.ws.hw3.service.model.orderConfirm.OrderConfirm;
+import com.uciext.ws.hw3.service.model.orderConfirm.ProductConfirm;
 import com.uciext.ws.hw3.util.Util;
 
 @WebService(portName = "InventoryPort", serviceName = "InventoryService", targetNamespace = "http://uciext.ws.hw3/wsdl", endpointInterface = "com.uciext.ws.hw3.service.InventoryWS")
@@ -65,7 +66,7 @@ public class InventoryWSImpl implements InventoryWS {
 		OrderDAO orderDao = new OrderDAO();
 		Long orderId = (new Date()).getTime();
 		orderDao.setOrderId(orderId);
-		Util.log("order.getOrderNumber(): " + order.getOrderNumber()); // TODO
+
 		orderDao.setOrderNumber(order.getOrderNumber());
 		orderDao.setVendorCode(order.getVendorCode());
 		orderDao.setVendorName(order.getVendorName());
@@ -90,12 +91,25 @@ public class InventoryWSImpl implements InventoryWS {
 		// Process order
 		OrderConfirmDAO orderConfirmDao = manager.processOrder(orderDao);
 
+		Util.log("orderConfirmDao.getTotalOrderPrice(): " + orderConfirmDao.getTotalOrderPrice());
+		Util.log("orderConfirmDao.getProductOrderList().size(): " + orderConfirmDao.getProductOrderList().size());
+
 		// Create a status response
 		OrderConfirm orderConfirm = new OrderConfirm();
 		orderConfirm.setConfirmNumber(String.valueOf(orderConfirmDao.getOrderConfirmId()));
 		orderConfirm.setOrderNumber(orderConfirmDao.getOrderNumber());
 		orderConfirm.setTotalOrderPrice(orderConfirmDao.getTotalOrderPrice());
 		orderConfirm.setVendorCode(orderConfirmDao.getVendorCode());
+
+		for (ProductOrderDAO productOrderDao : orderConfirmDao.getProductOrderList()) {
+			ProductConfirm productConfirm = new ProductConfirm();
+			productConfirm.setOrderQuantity(productOrderDao.getOrderQuantity());
+			ProductDAO productDao = productOrderDao.getProduct();
+			productConfirm.setPrice(productDao.getPrice());
+			productConfirm.setProductSku(productDao.getSku());
+
+			orderConfirm.getProductConfirm().add(productConfirm);
+		}
 
 		Util.log("SOAP orderConfirm response [confirmNumber=" + orderConfirm.getConfirmNumber() + "]");
 
