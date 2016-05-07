@@ -1,0 +1,24 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:wsdl="http://uciext.ws.hw3/wsdl">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <wsdl:submitOrder>
+         <!--Optional:-->
+         <wsdl:order>
+            <vendorCode>430094</vendorCode>
+            <vendorName>ABC Mart</vendorName>
+            <orderNumber>1310003232</orderNumber>
+            <!--1 or more repetitions:-->
+            <productOrder>
+               <productSku>111003392854</productSku>
+               <productName>Kindle Fire</productName>
+               <orderQuantity>5.0</orderQuantity>
+            </productOrder>
+            <productOrder>
+               <productSku>111003392994</productSku>
+               <productName>Kindle Paperwhite</productName>
+               <orderQuantity>5.0</orderQuantity>
+            </productOrder>
+         </wsdl:order>
+      </wsdl:submitOrder>
+   </soapenv:Body>
+</soapenv:Envelope>
