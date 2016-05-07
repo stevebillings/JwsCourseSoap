@@ -1,0 +1,11 @@
+lib
+classes
+webapp/inventoryWS/*.war
+webapp/inventoryWS/WEB-INF/classes
+webapp/inventoryWS/WEB-INF/lib
+jaxb-ri-2.2.7
+jaxrs-ri
+bin
+.classpath
+.project
+*.swp
